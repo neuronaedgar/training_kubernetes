@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: curler
+  labels:
+    app: curler
+spec:
+  containers:
+  - name: curler
+    image: viejo/curl
+    tty: true
