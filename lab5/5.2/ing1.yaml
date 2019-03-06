@@ -1,0 +1,10 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: ingress-lab5
+spec:
+  tls:
+  - secretName: certs
+  backend:
+    serviceName: svc-nodeport
+    servicePort: 80
