@@ -1,7 +1,7 @@
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
-  name: nginx
+  name: nginx-cm
 spec:
   replicas: 4
   strategy:
@@ -15,15 +15,23 @@ spec:
       - image: nginx
         name: nginx
         ports:
-        - containerPort: 80
+        - containerPort: 8080
           name: http
-      volumeMounts:
+        volumeMounts:
+        - name: nginx-lp
+          mountPath: /usr/share/nginx/html/
+        - name: nginx-config
+          mountPath: /etc/nginx/conf.d/
+      volumes:
       - name: nginx-lp
-        mountPath: /usr/share/nginx/html/
-  volumes:
-    - name: nginx-lp
-      configMap:
-        name: nginx-config
-        items:
-        - key: page
-          path: index.html
+        configMap:
+          name: nginx-lp
+          items:
+          - key: page
+            path: index.html
+      - name: nginx-config
+        configMap:
+          name: nginx-config
+          items:
+          - key: nginx.conf
+            path: nginx.conf
