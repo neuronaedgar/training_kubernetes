@@ -16,19 +16,18 @@ spec:
     spec:
       containers:
       - name: php-apache
-        image: viejo/php-apache:healthz
+        image: viejo/php-apache:health-check
         tty: true
-        command: ["apachectl", "start"]
         resources:
           requests:
             memory: "32M"
-            cpu: "20m"
+            cpu: "100m"
           limits:
             memory: "64M"
-            cpu: "40m"
+            cpu: "0.2"
         livenessProbe:
           httpGet:
-            path: /healthz
+            path: /health-check
             port: 80
             httpHeaders:
             - name: X-Custom-Header
@@ -37,7 +36,7 @@ spec:
           periodSeconds: 10
         readinessProbe:
           httpGet:
-            path: /healthz
+            path: /health-check
             port: 80
           initialDelaySeconds: 5
           periodSeconds: 10
