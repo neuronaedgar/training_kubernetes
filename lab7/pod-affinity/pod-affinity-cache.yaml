@@ -1,0 +1,29 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: redis-cache
+  labels:
+    redis: cache
+spec:
+  replicas: 10
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      name: redis-cache
+      labels:
+        redis: cache
+    spec:
+      affinity:
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+          - labelSelector:
+              matchExpressions:
+              - key: redis
+                operator: In
+                values:
+                - cache
+            topologyKey: kubernetes.io/hostname
+      containers:
+      - name: redis-cache
+        image: redis

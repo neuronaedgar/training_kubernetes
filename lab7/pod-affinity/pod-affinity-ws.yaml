@@ -1,0 +1,41 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: web-server
+  labels:
+    web: server
+spec:
+  replicas: 10
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      name: web-server
+      labels:
+        web: server
+    spec:
+      affinity:
+        podAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+          - labelSelector:
+              matchExpressions:
+              - key: redis
+                operator: In
+                values:
+                - cache
+            topologyKey: kubernetes.io/hostname
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+          - weight: 100
+            podAffinityTerm:
+              labelSelector:
+                matchExpressions:
+                - key: web
+                  operator: In
+                  values:
+                  - server
+              topologyKey: kubernetes.io/hostname
+      containers:
+      - name: web-server
+        image: nginx
+        

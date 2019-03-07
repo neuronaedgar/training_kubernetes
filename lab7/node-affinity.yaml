@@ -1,0 +1,28 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: web-server
+  labels:
+    node: affinity
+    web: server
+spec:
+  affinity:
+    nodeAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution:
+        nodeSelectorTerms:
+        - matchExpressions:
+          - key: schedule
+            operator: In
+            values:
+            - here
+      preferredDuringSchedulingIgnoredDuringExecution:
+      - weight: 1
+        preference:
+          matchExpressions:
+          - key: failure-domain.beta.kubernetes.io/region
+            operator: In
+            values:
+            - europe-west3
+  containers:
+  - name: web-server
+    image: nginx
