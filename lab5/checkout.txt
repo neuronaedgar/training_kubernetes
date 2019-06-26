@@ -1,0 +1,19 @@
+1.- Observar el archivo deploy-php-apache.yaml
+
+El deployment consiste en un simple, pero caro a nivel de CPU, código en php.
+El servidor apache sirve en el puerto 80, y devuelve 200 en /healthz
+
+2.- Hacer las modificaciones pertinentes y crear el deployment.
+3.- Una vez en funcionamiento, crear el HPA.
+Nota: Monitorizar el HPA, y ver si lo resultados son satisfactorios. Si no, qué se puede hacer para que lo sea?
+
+4.- Añadir otro container al pod, con imagen nginx. El container debería servir la IP del pod en el cual se encuentra, y la IP del host en el que corre el pod. Esa información lo tiene el container php-apache.
+Nota: downwardAPI NO puede proporcionar la IP del pod o del host.
+Puestos que php-apache ya está corriendo en el puerto 80, hay que servirlo en otro puerto. Utilizar viejo/nginx-8080:V2 para este próposito.
+
+5.- Instalar Nginx Ingress Controller
+6.- Crear un objecto Ingress para que se vea la ip del pod que sirve la petición.
+Nota: Para que se seleccione al IG de nginx, hay que añadir la siguiente anotación:
+  annotations:
+    kubernetes.io/ingress.class: "nginx"
+Nota: Nginx no admite peticiones sin "host" header.
