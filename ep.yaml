@@ -6,7 +6,7 @@ metadata:
   name: my-endpoint
 subsets:
 - addresses:
-  - ip: 10.12.3.14
+  - ip: <YOUR-SVC-IP>
   ports:
   - port: 80
     protocol: TCP
