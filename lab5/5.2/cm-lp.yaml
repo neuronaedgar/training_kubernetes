@@ -3,4 +3,4 @@ kind: ConfigMap
 metadata:
   name: nginx-lp
 data:
-  page: "<h1>HELLO FONYOU TEAM</h1>"
+  page: "<h1>HELLO TRAINING TEAM</h1>"
